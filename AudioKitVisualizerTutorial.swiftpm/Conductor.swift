@@ -58,7 +58,7 @@ final class Conductor: ObservableObject {
             let real = fftData[i]
             let imaginary = fftData[i + 1]
             
-            let normalizedBinMagnitude = 2.0 * sqrt(real * real + imaginary * imaginary) / self.FFT_SIZE
+            let normalizedBinMagnitude = (2.0 * sqrt(real * real + imaginary * imaginary)) / Float(self.FFT_SIZE)
             let amplitude = (20.0 * log10(normalizedBinMagnitude))
             
             var scaledAmplitude = (amplitude + 250) / 229.80
@@ -73,13 +73,13 @@ final class Conductor: ObservableObject {
             
             DispatchQueue.main.async {
                 if(i / 2 < self.amplitudes.count) {
-                    //                    self.amplitudes[i / 2] = se
+                    self.amplitudes[i / 2] = self.mapy(n: Double(scaledAmplitude), start1: 0.3, stop1: 0.9, start2: 0.0, stop2: 1.0)
                 }
             }
         }
-        
-        func mapy(n: Double, start1: Double, stop1: Double, start2: Double, stop2: Double) -> Double {
-            return ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2
-        }
+    }
+    
+    func mapy(n: Double, start1: Double, stop1: Double, start2: Double, stop2: Double) -> Double {
+        return ((n - start1) / (stop1 - start1)) * (stop2 - start2) + start2
     }
 }
